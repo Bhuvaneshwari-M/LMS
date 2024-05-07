@@ -23,6 +23,7 @@ const TaskList: React.FC<Props> = ({ tasks, setStatus }) => {
   const columns = [
     { header: "TaskId", key: "task_id"},
     { header: "Description", key: "task_desc"},
+    { header: "Task Type", key: "task_type"},
     { header: "Assigned to", key: "assigned_to" },
     { header: "Estimate", key: "estimate"},
     { header: "Start by", key: "start_date"},
@@ -44,6 +45,7 @@ const TaskList: React.FC<Props> = ({ tasks, setStatus }) => {
         <thead>
           <tr className="border-b">
             <th>Task</th>
+            <th>Task Type</th>
             <th>Assigned to</th>
             <th>Estimate</th>
             <th>Start by</th>
@@ -58,6 +60,7 @@ const TaskList: React.FC<Props> = ({ tasks, setStatus }) => {
               <td className="text-left">
                 {task.task_id} - {task.task_desc}
               </td>
+              <td>{task.task_type}</td>
               <td>{task.assigned_to}</td>
               <td className="text-center">{task.estimate}</td>
               <td>

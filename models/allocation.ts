@@ -14,4 +14,5 @@ export default interface IAllocation {
   start_date?: string;
   end_date?: string;
   current?:boolean;
+  task_type?:string;
 }

@@ -6,6 +6,7 @@ export interface Tasks extends mongoose.Document {
   assigned_to?: string;
   task_id?: string;
   task_desc?: string;
+  task_type?:string;
   estimate?: number;
   status?: string;
   start_date?: Date;
@@ -38,6 +39,12 @@ const TaskSchema = new mongoose.Schema<Tasks>({
 
     type: String,
     // required: [true, "Please provide the task description"],
+  },
+  task_type: {
+    /* The species of your pet */
+
+    type: String,
+    // required: [true, "Please specify the task ID."],
   },
   estimate: {
     /* Boolean poddy_trained value, if applicable */

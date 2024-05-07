@@ -93,6 +93,7 @@ function Task() {
           status: data.status,
           start_date: data.startDate,
           end_date: data.endDate,
+          task_type:data.tasktype
         }),
       });
 

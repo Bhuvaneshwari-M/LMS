@@ -22,7 +22,7 @@ async function hashPassword(password: string): Promise<string> {
   return hashedPassword;
 }
 
-async function getUser(email: string): Promise<User | null> {
+export async function getUser(email: string): Promise<User | null> {
   try {
     await dbConnect();
 
@@ -83,7 +83,7 @@ export async function authenticate(
   }
 }
 
-const getValue = (data: FormDataEntryValue | null): string => {
+export const getValue = (data: FormDataEntryValue | null): string => {
   if (!data) return "";
   else return data.toString();
 };
