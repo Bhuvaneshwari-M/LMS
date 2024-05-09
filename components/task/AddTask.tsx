@@ -1,184 +1,138 @@
+'use client'
 import React, { useState } from "react";
 import UCSelect from "../ui/select";
+import { useFormState } from "react-dom";
 import UCDate from "../ui/date";
-import UCInput from "../ui/input";
-import UCButton from "../ui/button";
-import { register } from "@/lib/actions";
+import {addTask} from "@/lib/taskAction";
 
-interface Props {
-  handleSubmit: (data: any) => void;
-}
-  
-const AddTask: React.FC<Props> = ({ handleSubmit }) => {
+// interface Props {
+//   handleSubmit?: (data: any) => void;
+// }
+
+//const AddTask: React.FC<Props> = ({ handleSubmit }) => {
+  const AddTask: React.FC = () => {
   const [taskData, setTaskData] = useState({
     taskId: "",
-    description: "",
-    tasktype: "",
+    taskDesc: "",
     startDate: "",
     endDate: "",
     estimate: "",
-    assignedTo: "",
-    createdBy: " ",
+    createdBy: "Hari",
+    assignedTo:"",
     status: "assigned",
   });
- 
-  /* const handleChange = (e: any) => {
+  const [errorMessage, dispatchf] = useFormState(addTask,undefined);
+
+  const handleChange = (e: any) => {
     const formData = { ...taskData, [e.target.name]: e.target.value };
     setTaskData(formData);
-   
-  }; */
-
-  /* const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setTaskData((prevTaskData) => ({
-      ...prevTaskData,
-      [name]: value,
-    }));
   };
-
-  const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-
-    // Validate if description field is empty
-    if (!taskData.description.trim()) {
-      alert("Description field is required!");
-      return;
-    }
-
-    // Proceed with form submission if all validations pass
-    handleSubmit(taskData);
-  }; */
-
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setTaskData((prevTaskData) => ({
-      ...prevTaskData,
-      [name]: value,
-    }));
-  };
-
-  const handleFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-
-    // Validate if description field is empty
-    if (!taskData.description.trim()) {
-      alert("Description field is required!");
-      return;
-    }
-
-    /* // Set createdBy field to the value of the name field from registration
-    const formData = new FormData(e.currentTarget);
-    const result = await register(undefined, formData);
-    setTaskData((prevTaskData) => ({
-      ...prevTaskData,
-      createdBy: result.name || "", // Assign name if it exists, otherwise assign an empty string
-    })); */
-
-    // Proceed with form submission if all validations pass
-    handleSubmit(taskData);
-  };
-
-  
   return (
     <>
-      <form onSubmit={handleFormSubmit}>
+      <form  action={dispatchf}>
         <div className="grid grid-cols-12 gap-1">
-          <div className="grow">
-            <UCInput
-              label="Task Id"
+          <div className="col-span-1">
+            <label
+              className="block text-xs font-bold uppercase tracking-wide text-gray-700"
+              htmlFor="task-id"
+            >
+              Task Id
+            </label>
+            <input
+              className="block w-full appearance-none rounded border bg-gray-200 px-2 py-1 leading-tight text-gray-700 focus:bg-white focus:outline-none"
+              id="task-id"
               type="text"
-              className="w-full"
-              placeholder="Task id"
+              placeholder="Please enter task id"
+              onChange={handleChange}
               name="taskId"
               value={taskData.taskId}
+            />
+          </div>
+          <div className="col-span-3">
+            <label
+              className="block text-xs font-bold uppercase tracking-wide text-gray-700"
+              htmlFor="taskDesc"
+            >
+              Description
+            </label>
+            <input
+              className="block w-full appearance-none rounded border border-gray-200 bg-gray-200 px-2 py-1 leading-tight text-gray-700 focus:border-gray-500 focus:bg-white focus:outline-none"
+              id="taskDesc"
+              type="text"
+              placeholder="Please enter task description"
+              value={taskData.taskDesc}
+              name="taskDesc"
               onChange={handleChange}
-            ></UCInput>
+            />
           </div>
-          <div className="col-span-2 required">
-          <UCInput
-            //label="Description <span class="text-red-500">*</span>"
-            label="Description"
-            className="w-full"
-            placeholder="Description"
-            name="description"
-            value={taskData.description}
-            onChange={handleChange}
-            required // Add required prop here
-          ></UCInput>
-          </div>
-          <div className="col-span-2">
-            <UCSelect
-              options={[
-                "Select",
-                "Analysis",
-                "Implementation",
-                "Testing",
-                "Review",
-                "Deployment",
-                "Documentation",
-                "Self-learning",
-                "Org Activity",
-              ]}
-              label="Task Type"
-              name="tasktype"
-              value={taskData.tasktype}
-              onChange={handleChange}
-            ></UCSelect>
-          </div>
-          <div className="col-span-2">
+          <div className=" col-span-2">
             <UCDate
               label="Start Date"
-              className="outline-none"
+              id="startDate"
               name="startDate"
-              value={taskData.startDate}
-              onChange={handleChange}
-            ></UCDate>
+               value={taskData.startDate}
+               onChange={handleChange}
+              >
+            </UCDate>
+            <p className="text-xs text-red-600">{errorMessage?.startDate}</p>
           </div>
-          <div className="col-span-2">
+          <div className=" col-span-2">
             <UCDate
               label="End Date"
-              className="outline-none"
+              id ="endDate"
               name="endDate"
-              value={taskData.endDate}
-              onChange={handleChange}
-            ></UCDate>
+               value={taskData.endDate}
+               onChange={handleChange}
+              >
+            </UCDate>
+            <p className="text-xs text-red-600">{errorMessage?.endDate}</p>
           </div>
-          <UCInput
-            label="Estimate"
-            className="w-full"
-            name="estimate"
-            value={taskData.estimate}
-            onChange={handleChange}
-          ></UCInput>
+          <div className="col-span-2">
+            <label
+              className="block text-xs font-bold uppercase tracking-wide text-gray-700"
+              htmlFor="estimate"
+            >
+              Estimate
+            </label>
+            <input
+              className="block w-full appearance-none rounded border border-gray-200 bg-gray-200 px-2 py-1 leading-tight text-gray-700 focus:border-gray-500 focus:bg-white focus:outline-none"
+              id="estimate"
+              type="text"
+              value={taskData.estimate}
+              onChange={handleChange}
+              name="estimate"
+            />
+          </div>
           <div className="col-span-2">
             <UCSelect
               options={[
-                "Select",
-                "Bhuvi",
-                "Gajaanan",
-                "Guddi",
                 "Hari",
+                "Gajanan",
+                "Suhaib",
                 "Jishna",
                 "Madhu",
+                "Guddi",
                 "Neha",
+                "Bhuvaneshari",
                 "Rushi",
-                "Suhaib",
               ]}
               label="Assigned To"
+              id="assignedTo"
               name="assignedTo"
-              value={taskData.assignedTo}
-              onChange={handleChange}
+               value={taskData.assignedTo}
+               onChange={handleChange}
             ></UCSelect>
           </div>
-          {/* <div className="px-2 py-1">
-            <UCButton type="button" onClick={() => handleSubmit(taskData)}>
+
+          <div className="col-span-1 content-around">
+            <button
+              className="flex-shrink-0 rounded border-4 border-teal-500 bg-teal-500 px-2 py-1 text-sm text-white hover:border-teal-700 hover:bg-teal-700"
+              type="submit"
+              // onClick={() => handleSubmit(taskData)}
+            >
               Add Task
-            </UCButton>
-          </div> */}
-          <div className="px-2 py-1">
-          <UCButton type="submit">Add Task</UCButton>
-        </div>
+            </button>
+          </div>
         </div>
       </form>
     </>
